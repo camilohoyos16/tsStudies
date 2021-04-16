@@ -1,5 +1,6 @@
 import { GameObject } from "./gameObject";
-import { GAME_WIDTH } from "./doodlerConstants"
+import { GAME_WIDTH, GAME_HEIGHT, GAME_POSITION_X, GAME_POSITION_Y, GAME_STATES } from "./doodlerConstants"
+import * as draw from "../draw"
 
 const SPACE_BETWEEN_ICONS = 20
 const OFFSET_WITH_GAME_CANVAS = 50
@@ -19,6 +20,12 @@ export class GameInterface {
         this.playerLives = playerLives
         this.createPlayerLivesIcons()
     }
+
+    resetGame() {
+        this.playerLivesIcons.forEach(icon => {
+            icon.color = 0xdb1414
+        });
+    }
     
     playerLoseLive() {
         this.playerLives--
@@ -27,15 +34,43 @@ export class GameInterface {
         }
     }
     
-    renderInterface() {
+    renderInterface(currentGameState: GAME_STATES) {
+        switch (currentGameState) {
+            case GAME_STATES.GameOver:
+                this.renderGameRunning()
+                break;
+            case GAME_STATES.Running:
+                this.renderGameRunning()
+                break;
+            case GAME_STATES.Menu:
+                this.renderGameMenu()
+                break;
+            case GAME_STATES.Pause:
+                this.renderGamePaused()
+                break;
+        
+            default:
+                break;
+        }
+    }
+    
+    private renderGameRunning() {
         this.playerLivesIcons.forEach(icon => {
             if (icon.shouldBeRenderer) {
-                icon.objectLoop(0);
+                icon.objectRender();
             }
         });
     }
+
+    private renderGameMenu() {
+        draw.rect(GAME_POSITION_X, GAME_POSITION_Y, GAME_WIDTH, GAME_HEIGHT, 0x000000, 0.2)
+    }
+
+    private renderGamePaused() {
+        draw.rect(GAME_POSITION_X, GAME_POSITION_Y, GAME_WIDTH, GAME_HEIGHT, 0x000000, 0.7)
+    }
     
-    createPlayerLivesIcons() {
+    private createPlayerLivesIcons() {
         if (this.playerLivesIcons.length == 0) {
             let tempPosition = {
                 x: GAME_WIDTH + OFFSET_WITH_GAME_CANVAS,

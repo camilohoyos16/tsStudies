@@ -39,16 +39,23 @@ export class Player extends GameObject{
         })
     }
 
+    reset(lives: number) {
+        this.lives = lives
+        this.color = 0x000000
+    }
+
     dead() {
-        
+        this.color = 0xdb1414
     }
 
     touchFloor() {
         this.color = 0xdb1414
-        setTimeout(() => {
-            this.color = 0x000000
-        }, 300);
         this.lives--;
+        if (this.lives > 0) {
+            setTimeout(() => {
+                this.color = 0x000000
+            }, 300);
+        }
     }
 
     ///Thi position is with the pivot on Bottom - Center
@@ -59,7 +66,7 @@ export class Player extends GameObject{
         }
     }
 
-    protected objectUpdate(deltaTime: number) {
+    objectUpdate(deltaTime: number) {
         this.position.x += (PLAYER_SIDE_MOVE_SPEED / deltaTime) * this.sideMoveDirection;
 
         if(this.isFalling){
@@ -85,7 +92,7 @@ export class Player extends GameObject{
         this.canCollide = false;
     }
 
-    protected objectRender() {
+    objectRender() {
         super.objectRender();
         this.renderPlayerFace();
     }

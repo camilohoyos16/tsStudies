@@ -5,7 +5,7 @@ let game = new Game();
 let lastTime = 0;
 
 export function gameDoodlerStart(){
-    game.startGame();
+    // game.startGame();
     requestAnimationFrame(update);
 }
 

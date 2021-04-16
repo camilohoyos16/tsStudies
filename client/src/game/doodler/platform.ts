@@ -12,7 +12,7 @@ export class Platform extends GameObject{
     }
 
 
-    protected objectUpdate(deltaTime:number){
+    objectUpdate(deltaTime:number){
         this.position.y += this.fallSpeed / deltaTime;
     }
 }

@@ -27,16 +27,11 @@ export class GameObject{
         }
     }
 
-    objectLoop(deltaTime:number){
-        this.objectUpdate(deltaTime);
-        this.objectRender();
-    }
-
-    protected objectUpdate(deltaTime:number){
+    objectUpdate(deltaTime:number){
 
     }
 
-    protected objectRender(){
+    objectRender(){
         draw.rect(this.position.x, this.position.y, this.width, this.height, this.color);
     }
 }
