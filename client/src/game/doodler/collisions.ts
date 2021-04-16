@@ -12,20 +12,15 @@ export function collision(collider:GameObject, otherObject:GameObject):boolean{
     }
 }
 
-export function collisionTop(collider:GameObject, otherObject:GameObject):boolean{
+export function collisionTop(collider: GameObject, otherObject: GameObject):boolean{
     let colliderTopEdge = {
         xleft: collider.position.x,
         xright: collider.position.x + collider.width,
         y: collider.position.y
     }
 
-    if(isPointInsideObject({x:colliderTopEdge.xleft, y:colliderTopEdge.y}, otherObject) ||
-        isPointInsideObject({x:colliderTopEdge.xright, y:colliderTopEdge.y}, otherObject))
-    {
-        return true;
-    }else{
-        return false;
-    }
+    return isPointInsideObject({x:colliderTopEdge.xleft, y:colliderTopEdge.y}, otherObject) ||
+        isPointInsideObject({x:colliderTopEdge.xright, y:colliderTopEdge.y}, otherObject);
 }
 
 export function collisionBottom(collider:GameObject, otherObject:GameObject):boolean{
@@ -35,14 +30,8 @@ export function collisionBottom(collider:GameObject, otherObject:GameObject):boo
         y: collider.position.y + collider.height
     }
 
-    if(isPointInsideObject({x:colliderBottomEdge.xleft, y:colliderBottomEdge.y}, otherObject) ||
-        isPointInsideObject({x:colliderBottomEdge.xright, y:colliderBottomEdge.y}, otherObject))
-    {
-        return true;
-    }else{
-        return false;
-    }
-    
+    return isPointInsideObject({x:colliderBottomEdge.xleft, y:colliderBottomEdge.y}, otherObject) ||
+        isPointInsideObject({x:colliderBottomEdge.xright, y:colliderBottomEdge.y}, otherObject);
 }
 
 export function collisionLeft(collider:GameObject, otherObject:GameObject):boolean{
@@ -52,14 +41,8 @@ export function collisionLeft(collider:GameObject, otherObject:GameObject):boole
         yBottom: collider.position.y + collider.height
     }
 
-    if(isPointInsideObject({x:colliderLeftEdge.x, y:colliderLeftEdge.yTop}, otherObject) ||
-        isPointInsideObject({x:colliderLeftEdge.x, y:colliderLeftEdge.yBottom}, otherObject))
-    {
-        return true;
-    }else{
-        return false;
-    }
-    
+    return isPointInsideObject({x:colliderLeftEdge.x, y:colliderLeftEdge.yTop}, otherObject) ||
+        isPointInsideObject({x:colliderLeftEdge.x, y:colliderLeftEdge.yBottom}, otherObject);
 }
 
 export function collisionRight(collider:GameObject, otherObject:GameObject):boolean{
@@ -69,13 +52,8 @@ export function collisionRight(collider:GameObject, otherObject:GameObject):bool
         yBottom: collider.position.y + collider.height
     }
 
-    if(isPointInsideObject({x:colliderRightEdge.x, y:colliderRightEdge.yTop}, otherObject) ||
-        isPointInsideObject({x:colliderRightEdge.x, y:colliderRightEdge.yBottom}, otherObject))
-    {
-        return true;
-    }else{
-        return false;
-    }
+    return isPointInsideObject({ x: colliderRightEdge.x, y: colliderRightEdge.yTop }, otherObject) ||
+        isPointInsideObject({ x: colliderRightEdge.x, y: colliderRightEdge.yBottom }, otherObject);
 }
 
 function isPointInsideObject(point:{x:number, y:number}, otherObject:GameObject):boolean{
@@ -86,13 +64,8 @@ function isPointInsideObject(point:{x:number, y:number}, otherObject:GameObject)
         rigt: otherObject.position.x + otherObject.width
     }
 
-    if(point.y < otherObjectBox.bottom &&
-        point.y > otherObjectBox.top &&
-        point.x > otherObjectBox.left && 
-        point.x < otherObjectBox.rigt)
-        {
-            return true;
-        }else{
-            return false;
-        }
+    return point.y < otherObjectBox.bottom + 20 &&
+           point.y > otherObjectBox.top &&
+           point.x > otherObjectBox.left &&
+           point.x < otherObjectBox.rigt;
 }

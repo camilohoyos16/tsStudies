@@ -9,7 +9,9 @@ export class GameObject{
         y:0
     }
     canCollide = true;
+    color: number = 0x000000;
 
+    ///This constructor position put object inside canvas positions, you dont need to always calculate canvas game position
     constructor(width:number, heigth:number, position:{x:number, y:number}){
         this.width = width;
         this.height = heigth;
@@ -34,7 +36,7 @@ export class GameObject{
 
     }
 
-    private objectRender(){
-        draw.rect(this.position.x, this.position.y, this.width, this.height, 0x000000);
+    protected objectRender(){
+        draw.rect(this.position.x, this.position.y, this.width, this.height, this.color);
     }
 }
