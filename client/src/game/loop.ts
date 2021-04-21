@@ -7,7 +7,6 @@ export const startGameLoop = (): void => {
 
   const loop = () => {
     updateGameObjects()
-
     if (isRunning) {
       requestAnimationFrame(loop)
     }

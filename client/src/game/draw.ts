@@ -20,3 +20,10 @@ export const rect = (x: number, y: number, width: number, height: number, color 
     pixiGraphics.drawRect(x - viewport.x, y - viewport.y, width, height)
   }
 }
+
+export const circle  = (x: number, y: number, radius: number, color = 0xffffff, alpha = 1): void => {
+  if (IS_USING_PIXI) {
+    pixiGraphics.beginFill(color, alpha)
+    pixiGraphics.drawCircle(x - viewport.x, y - viewport.y, radius)
+  }
+}

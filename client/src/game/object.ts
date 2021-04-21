@@ -1,6 +1,8 @@
-import { canvasContainer } from "../components/canvas"
+import { CanvasContainer, canvasContainer } from "../components/canvas"
 import { viewport } from "./viewport"
 import * as draw from "./draw"
+import { App } from "../App"
+import * as PIXI from "pixi.js"
 
 export const gameObjects: GameObject[] = []
 
@@ -127,7 +129,6 @@ export const updateGameObjects = (): void => {
   for (const gameObject of sortedObjects) {
     if (!gameObject.disabled) {
       const draw = gameObject.update(delta)
-
       if (draw) draws.push(draw)
     }
   }

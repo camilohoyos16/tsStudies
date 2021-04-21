@@ -5,3 +5,7 @@ export const KEYBINDS = {
   up: ['w', 'ArrowUp'],
   down: ['s', 'ArrowDown'],
 }
+
+export const MOUSEBINDS = {
+  
+}
