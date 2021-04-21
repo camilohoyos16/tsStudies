@@ -1,7 +1,8 @@
-import { GameObject } from "./tankGameObject"
-import { vector2, vector2Normalize } from "./vectors"
+import { GameObject, gameObjects } from "./tankGameObject"
+import { vector2, vector2Normalize } from "./tankVectors"
 import { player } from "./tanksGame"
 import * as draw from "../draw"
+import { OBJECT_TAGS } from "./tankConstants"
 
 const ENEMY_SPEED = 15
 
@@ -24,10 +25,16 @@ export const Enemy = () => new class Enemy extends GameObject {
 
 
             return () => {
-                draw.circle(this.position.x, this.position.y, this.width, 0xc11f1f)
+                draw.circle(this.position.x, this.position.y, this.radius, 0xc11f1f)
             }
+        }, () => {
+            const index = gameObjects.indexOf(this)
+            gameObjects.splice(index, 1)
         })
-        this.setSize(40, 40)
+
+        this.tags = [OBJECT_TAGS.ENEMY]
+        this.setSize(40)
         this.setPosition(0, 0)
+        //this.setPosition(player.position.x - 100, player.position.y - 100)
     }
 }

@@ -4,3 +4,9 @@ export enum GAME_STATES{
     Paused,
     GameOver,
 }
+
+export const OBJECT_TAGS = {
+    ENEMY: "ENEMY",
+    PLAYER: "PLAYER",
+    BULLET: "BULLET",
+  }

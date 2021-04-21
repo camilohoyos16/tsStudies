@@ -8,8 +8,7 @@ import { canvasContainer } from "../../components/canvas"
 
 let lastTime = 0
 let spawnEnemyTimer = 0
-const spawnEnemyTick = 5000
-
+const spawnEnemyTick = 2000
 
 export let player: GameObject
 

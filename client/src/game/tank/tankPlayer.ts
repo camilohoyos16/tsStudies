@@ -1,10 +1,11 @@
 import { GameObject } from "./tankGameObject"
 import { Bullet } from "./tankBullet"
-import { vector2, vector2Normalize } from "./vectors"
+import { vector2, vector2Normalize } from "./tankVectors"
 import { keyboard } from "../input"
 import * as draw from "../draw"
 import { KEYBINDS } from "../../../../config"
 import { viewport } from "../viewport"
+import { OBJECT_TAGS } from "./tankConstants"
 
 const PLAYER_SPEED = 30
 const AIM_OFFSET_WITH_PLAYER = 50
@@ -33,23 +34,28 @@ export const Player = () => new class Player extends GameObject {
             )
 
             this.aimDirection = vector2Normalize(this.aimDirection)
-
             
+            // const collision = this.getObjectCollisions()
+
+            // if (collision?.tags.includes(OBJECT_TAGS.ENEMY)) {
+            //     console.log("HOLAAA")
+            // }
+
             return () => {
-                draw.circle(this.position.x, this.position.y, this.width)
+                draw.circle(this.position.x, this.position.y, this.radius)
                 this.drawAimTarget()
             }
         })
 
-        this.setSize(50, 50)
+        this.setSize(50)
         this.setPosition (viewport.width / 2, viewport.height / 2)
         this.assignKeyEvents()
         this.assigMouseEvents()
-
+        this.tags = [OBJECT_TAGS.PLAYER]
     }
 
     drawAimTarget() {
-        const edge = this.width / 3
+        const edge = this.radius / 3
         this.aimTargetPosition = vector2(
             (this.position.x - (this.aimDirection.x * AIM_OFFSET_WITH_PLAYER) - edge / 2),
             (this.position.y - (this.aimDirection.y * AIM_OFFSET_WITH_PLAYER) - edge/ 2)
