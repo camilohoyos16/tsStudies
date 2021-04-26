@@ -9,6 +9,7 @@ import * as draw from "../draw"
 import { viewport } from "../viewport"
 import { EventEmitter } from 'events'
 import { canvasContainer } from "../../components/canvas"
+import { runningContainer } from "./tankContainers"
 
 export let currentGameState = GAME_STATES.MENU
 
@@ -30,6 +31,7 @@ export let currentPlayer: Player
 export function tankGameStart() {
     changeGameState(GAME_STATES.MENU)
     currentPlayer = player(IMAGES.player)
+    runningContainer.addChild(currentPlayer.sprite)
     startGameInterface()
 }
 
@@ -54,7 +56,8 @@ export function tankGameLoop() {
 
     function spawnEnemy(timeStamp:number){
         spawnEnemyTimer = timeStamp + spawnEnemyTick
-        Enemy(IMAGES.enemyClown)
+        const newEnemy = Enemy(IMAGES.enemyClown)
+        runningContainer.addChild(newEnemy.sprite)
     }
 
     loop(0)

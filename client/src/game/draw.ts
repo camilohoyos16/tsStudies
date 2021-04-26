@@ -1,7 +1,7 @@
 import { pixi, pixiGraphics } from "./pixi"
 import { IMAGES } from "./tank/tankConstants"
 import * as PIXI from 'pixi.js'
-import {Sprite} from 'pixi.js'
+import {Sprite, Texture} from 'pixi.js'
 import { viewport } from "./viewport"
 
 const loader = PIXI.Loader.shared
@@ -54,7 +54,7 @@ export const circle  = (x: number, y: number, radius: number, color = 0xffffff, 
 
 export const sprite = (x: number, y: number, widht: number, height: number, path = "", alpha = 1) => {
   const spritePath = path || "images/default.png"
-  const newSprite = new Sprite(loader.resources[spritePath].texture!)
+  const newSprite = new Sprite(getTexture(spritePath))
 
   //Check why the texture is not loading from the resources at the time the sprite is created
   setTimeout(() => {
@@ -70,6 +70,10 @@ export const sprite = (x: number, y: number, widht: number, height: number, path
   newSprite.alpha = 1
 
   return newSprite
+}
+
+export function getTexture(spritePath: string): Texture{
+  return loader.resources[spritePath].texture!
 }
 
 
@@ -90,12 +94,12 @@ export const button = (text: string, x: number, y: number, width: number, height
   buttonContainer.on("mouseover", () => {
     buttonSprite.tint = 0x52c2ff
   }).on("mouseout", () => {
-    buttonSprite.texture = loader.resources["images/buttonNormal.png"].texture!
+    buttonSprite.texture = getTexture(IMAGES.buttonNormal)
     buttonSprite.tint = 0xffffff
   }).on("mousedown", () => {
-    buttonSprite.texture = loader.resources["images/buttonClicked.png"].texture!
+    buttonSprite.texture = getTexture(IMAGES.buttonClicked)
   }).on("mouseup", () => {
-    buttonSprite.texture = loader.resources["images/buttonNormal.png"].texture!
+    buttonSprite.texture = getTexture(IMAGES.buttonNormal)
   })
 
   buttonContainer.addChild(buttonSprite)

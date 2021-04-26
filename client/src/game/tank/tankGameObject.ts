@@ -40,9 +40,9 @@ export class GameObject{
         this.sprite.height = radius
     }
 
-    // setSprite(pathSprite: string) {
-    //     (this.render).texture = "" as <PIXI.Sprite>
-    // }
+    setSprite(pathSprite: string) {
+        this.sprite.texture = draw.getTexture(pathSprite)
+    }
 
     getObjectCollisions() {
         for (const gameObject of gameObjects) {

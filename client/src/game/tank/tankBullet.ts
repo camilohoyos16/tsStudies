@@ -1,4 +1,5 @@
 import { GameObject, gameObjects } from "./tankGameObject"
+import { runningContainer } from "./tankContainers"
 import { vector2 } from "./tankVectors"
 import { viewport } from "../viewport"
 import { OBJECT_TAGS } from "./tankConstants"
@@ -22,8 +23,10 @@ export const Bullet = (pathSprite: string) => {
 
             
                 this.currentSpeed = vector2(BULLET_SPEED / deltaTime, BULLET_SPEED / deltaTime)
-                this.position.x += this.currentSpeed.x * this.moveDirection.x
-                this.position.y += this.currentSpeed.y * this.moveDirection.y
+                this.setPosition(
+                    bullet.position.x + bullet.currentSpeed.x * bullet.moveDirection.x,
+                    bullet.position.y + bullet.currentSpeed.y * bullet.moveDirection.y
+                )
 
                 this.checkBulletOffScreen()
 
@@ -31,11 +34,12 @@ export const Bullet = (pathSprite: string) => {
                     draw.circle(this.position.x, this.position.y, this.radius, 0x85dd27)
                 }
             }, () => {
+                runningContainer.removeChild(this.sprite)
                 const index = gameObjects.indexOf(this)
                 gameObjects.splice(index, 1)
             })
         
-            this.setSize(20)
+            this.setSize(45)
             this.tags = [OBJECT_TAGS.BULLET]
         }
     

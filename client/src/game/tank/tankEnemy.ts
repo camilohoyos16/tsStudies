@@ -22,22 +22,19 @@ export const Enemy = (pathSprite: string) =>{
 
                 this.desiredDirection = vector2Normalize(this.desiredDirection)
                 this.currentSpeed = vector2(ENEMY_SPEED / deltaTime, ENEMY_SPEED / deltaTime)
-                this.position.x += this.currentSpeed.x * this.desiredDirection.x
-                this.position.y += this.currentSpeed.y * this.desiredDirection.y
-
-
-                return () => {
-                    const render = draw.circle(this.position.x, this.position.y, this.radius, 0xc11f1f)
-                    runningContainer.addChild(render!)
-                    return render
-                }
+                
+                this.setPosition(
+                    enemy.position.x + enemy.currentSpeed.x * enemy.desiredDirection.x,
+                    enemy.position.y + enemy.currentSpeed.y * enemy.desiredDirection.y
+                )
             }, () => {
+                runningContainer.removeChild(this.sprite)
                 const index = gameObjects.indexOf(this)
                 gameObjects.splice(index, 1)
             })
 
             this.tags = [OBJECT_TAGS.ENEMY]
-            this.setSize(40)
+            this.setSize(60)
             this.setPosition(0, 0)
         }
     }

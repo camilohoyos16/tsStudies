@@ -15,21 +15,20 @@ const INITIAL_LIVES = 1
 export const player = (pathSprite: string) => {
     const newPlayer = new Player(pathSprite,(deltaTime) => {
         newPlayer.currentSpeed = vector2(PLAYER_SPEED / deltaTime, PLAYER_SPEED / deltaTime)
-        newPlayer.position.x += newPlayer.currentSpeed.x  * newPlayer.moveDirection.x
-        newPlayer.position.y += newPlayer.currentSpeed.y * newPlayer.moveDirection.y
+        newPlayer.setPosition(
+            newPlayer.position.x + newPlayer.currentSpeed.x * newPlayer.moveDirection.x,
+            newPlayer.position.y + newPlayer.currentSpeed.y * newPlayer.moveDirection.y
+        )
 
         newPlayer.aimDirection = vector2(
             newPlayer.position.x - newPlayer.mousePosition.x,
             newPlayer.position.y - newPlayer.mousePosition.y
-            )
+        )
 
             newPlayer.aimDirection = vector2Normalize(newPlayer.aimDirection)
             
             return () => {
-                const render = draw.circle(newPlayer.position.x, newPlayer.position.y, newPlayer.radius)     
-                runningContainer.addChild(render!)
                 newPlayer.drawAimTarget()
-                return render
             }
     })
     return newPlayer
@@ -52,7 +51,7 @@ export class Player extends GameObject{
     constructor(pathSprite: string,update: ((deltaTime: number) => void | (() => void)),destroy?: () => void | undefined) {
         super(pathSprite, update)
 
-        this.setSize(50)
+        this.setSize(80)
         this.setPosition (viewport.width / 2, viewport.height / 2)
         this.assignKeyEvents()
         this.assigMouseEvents()
@@ -90,6 +89,7 @@ export class Player extends GameObject{
             const newBullet = Bullet(IMAGES.bullet)
             newBullet.setPosition(this.aimTargetPosition.x, this.aimTargetPosition.y)
             newBullet.setMoveDirection(this.aimDirection)
+            runningContainer.addChild(newBullet.sprite)
         })
     }
 
