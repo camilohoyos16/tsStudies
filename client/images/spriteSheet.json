@@ -1,0 +1,94 @@
+{"frames": {
+
+"asteroid.png":
+{
+	"frame": {"x":256,"y":128,"w":160,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
+	"sourceSize": {"w":160,"h":160}
+},
+"buttonClicked.png":
+{
+	"frame": {"x":0,"y":544,"w":384,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":384,"h":192},
+	"sourceSize": {"w":384,"h":192}
+},
+"buttonNormal.png":
+{
+	"frame": {"x":0,"y":736,"w":384,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":384,"h":192},
+	"sourceSize": {"w":384,"h":192}
+},
+"default.png":
+{
+	"frame": {"x":0,"y":288,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"Halloween2_Enemy_1.png":
+{
+	"frame": {"x":152,"y":0,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+"Halloween2_Player.png":
+{
+	"frame": {"x":280,"y":0,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+"heartActive.png":
+{
+	"frame": {"x":0,"y":0,"w":76,"h":76},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":76},
+	"sourceSize": {"w":76,"h":76}
+},
+"heartInactive.png":
+{
+	"frame": {"x":76,"y":0,"w":76,"h":76},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":76},
+	"sourceSize": {"w":76,"h":76}
+},
+"Independency_Enemy_0.png":
+{
+	"frame": {"x":0,"y":128,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+"Money_Enemy_0.png":
+{
+	"frame": {"x":128,"y":128,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+}},
+"animations": {
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "spriteSheet.png",
+	"format": "RGBA8888",
+	"size": {"w":416,"h":928},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c72d3cad1a8e82f4dddb3f64c39f3e4a:de63fcae812893a32b037ee701bd9787:ea5d22e715ea7a530878e244f6ee1006$"
+}
+}

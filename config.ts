@@ -4,6 +4,7 @@ export const KEYBINDS = {
   right: ['d', 'ArrowRight'],
   up: ['w', 'ArrowUp'],
   down: ['s', 'ArrowDown'],
+  pause: ['Escape', 'p']
 }
 
 export const MOUSEBINDS = {
