@@ -88,7 +88,8 @@ export class Player extends GameObject{
     }
 
     resetPlayer() {
-        this.currentLifes = INITIAL_LIVES
+        this.maxLifes = INITIAL_LIVES
+        this.currentLifes = this.maxLifes
         currentPlayerSpeed = PLAYER_SPEED
         this.score = 0
         gameObjects.push(this)

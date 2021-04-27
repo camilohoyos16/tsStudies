@@ -1,6 +1,6 @@
 import { GAME_STATES, IMAGES } from "./tankConstants"
 import { updateGameObjects, resetGameObjects, GameObject } from "./tankGameObject"
-import { interfaceLoop, startGameInterface, playerUpdateScore as updatePlayerScore } from "./tankInterface"
+import { interfaceLoop, startGameInterface, updatePlayerScore, resetInterface } from "./tankInterface"
 import { Player, player } from "./tankPlayer"
 import { keyboard } from "../input"
 import { KEYBINDS } from "../../../../config"
@@ -142,7 +142,7 @@ export function resetGame() {
     resetGameObjects()
     changeGameState(GAME_STATES.RUNNING)
     currentPlayer.resetPlayer()
-    updatePlayerScore()
+    resetInterface()
 
     currentRound = 1
     enemyRoundCount = 5

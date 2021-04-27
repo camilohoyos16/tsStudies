@@ -22,6 +22,7 @@ let fillUpLifesButton
 let extraLifeButton
 
 let scoreText: PIXI.Text
+let roundsText: PIXI.Text
 let gameoverText: PIXI.Text
 let nextRoundText: PIXI.Text
 
@@ -32,8 +33,18 @@ export const interfaceLoop = () => {
     }
 }
 
-export function playerUpdateScore() {
+export function updatePlayerScore() {
     scoreText.text = `Score: ${currentPlayer.score}`
+}
+
+export function resetInterface() {
+    updatePlayerScore()
+    for (let i = 0; i < playerLiveIcons.length; i++) {
+        runningContainer.removeChild(playerLiveIcons[i].sprite)  
+    }
+    playerLiveIcons.length = 0
+
+    createPlayerLives()
 }
 
 export function startGameInterface() {
@@ -114,7 +125,7 @@ export function startGameInterface() {
     extraLifeButton = draw.button("+ Life", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 150)
     extraLifeButton.container.on("click", () => {
         playerLiveIcons.push(new Icon(viewport.width - 100, playerLiveIcons[playerLiveIcons.length - 1].postion.y + ICONS_PADDING, 30))
-        currentPlayer.levelUpLifes
+        currentPlayer.levelUpLifes()
         changeGameState(GAME_STATES.RUNNING)
     })
 
