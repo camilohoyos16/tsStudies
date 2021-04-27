@@ -1,21 +1,34 @@
-import { currentGameState, currentPlayer, changeGameState, onGameStateChanged, resetGame } from "./tanksGame"
+import { currentPlayer, changeGameState, onGameStateChanged, resetGame } from "./tanksGame"
 import { vector2 } from "./tankVectors"
+import { levelUpBulletSpeed } from "./tankBullet"
+import { levelUpPlayerSpeed } from "./tankPlayer"
 import { GAME_STATES, IMAGES } from "./tankConstants"
-import { menuContainer, runningContainer, pausedContainer, gameOverContainer } from "./tankContainers"
+import { menuContainer, runningContainer, pausedContainer, gameOverContainer, nextRoundContainer } from "./tankContainers"
 import { viewport } from "../viewport"
 import * as draw from "../draw"
 import * as PIXI from 'pixi.js'
 import { Sprite, Text } from "pixi.js"
+
 const ICONS_PADDING = 50
 const playerLiveIcons: Array<Icon> = []
+
 let playButton
 let restartButton
+
+let levelUpContainer
+let playerSpeedButton
+let bulletSpeedButton
+let fillUpLifesButton
+let extraLifeButton
+
 let scoreText: PIXI.Text
 let gameoverText: PIXI.Text
+let nextRoundText: PIXI.Text
+
 
 export const interfaceLoop = () => {
     for (let i = 0; i < playerLiveIcons.length; i++) {
-        playerLiveIcons[i].changeIconState(currentPlayer.currentLives - 1 >= i)
+        playerLiveIcons[i].changeIconState(currentPlayer.currentLifes - 1 >= i)
     }
 }
 
@@ -62,7 +75,64 @@ export function startGameInterface() {
         viewport.width / 2 - gameoverText.width / 2,
         viewport.height / 2 - gameoverText.height / 2 - 200
     )
+
+    nextRoundText = draw.createText('Round Completed', 0, 0, 20)!
+    nextRoundText.style = {
+        fontFamily: "Impact, Charcoal, sans-serif",
+        letterSpacing: 11,
+        lineJoin: "bevel",
+        fontSize: 100,
+        miterLimit: 4,
+        stroke: "red",
+        strokeThickness: 4
+    }
+    nextRoundText.position.set(
+        viewport.width / 2 - nextRoundText.width / 2,
+        viewport.height / 2 - nextRoundText.height / 2 - 200
+    )
+
+    levelUpContainer = new PIXI.Container()
+
+    playerSpeedButton = draw.button("+ Player Speed", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 150)
+    playerSpeedButton.container.on("click", () => {
+        levelUpPlayerSpeed()
+        changeGameState(GAME_STATES.RUNNING)
+    })
     
+    bulletSpeedButton = draw.button("+ Bullet Speed", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 150)
+    bulletSpeedButton.container.on("click", () => {
+        levelUpBulletSpeed(10)
+        changeGameState(GAME_STATES.RUNNING)
+    })
+    
+    fillUpLifesButton = draw.button("Fill Lifes", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 150)
+    fillUpLifesButton.container.on("click", () => {
+        currentPlayer.fillUpLifes()
+        changeGameState(GAME_STATES.RUNNING)
+    })
+    
+    extraLifeButton = draw.button("+ Life", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 150)
+    extraLifeButton.container.on("click", () => {
+        playerLiveIcons.push(new Icon(viewport.width - 100, playerLiveIcons[playerLiveIcons.length - 1].postion.y + ICONS_PADDING, 30))
+        currentPlayer.levelUpLifes
+        changeGameState(GAME_STATES.RUNNING)
+    })
+
+    levelUpContainer.addChild(
+        playerSpeedButton.container,
+        bulletSpeedButton.container,
+        fillUpLifesButton.container,
+        extraLifeButton.container,
+        nextRoundText
+    )
+
+    playerSpeedButton.container.position.set(0, 0)
+    bulletSpeedButton.container.position.set(playerSpeedButton.container.width + 20, 0)
+    fillUpLifesButton.container.position.set(0, playerSpeedButton.container.height + 20)
+    extraLifeButton.container.position.set(playerSpeedButton.container.width + 20, playerSpeedButton.container.height + 20)
+
+    levelUpContainer.position.set(viewport.width / 2 - levelUpContainer.width / 2, viewport.height / 2)
+      
     createPlayerLives()
     
     onGameStateChanged([
@@ -70,6 +140,7 @@ export function startGameInterface() {
         GAME_STATES.MENU,
         GAME_STATES.PAUSED,
         GAME_STATES.RUNNING,
+        GAME_STATES.NEXT_ROUND,
     ], onGameStateChangedListener)
     
     pausedContainer.addChild(draw.createText("Paused", viewport.width / 2 - 75, viewport.height / 2 - 75, 80))
@@ -77,7 +148,9 @@ export function startGameInterface() {
     menuContainer.addChild(playButton.container)
     gameOverContainer.addChild(gameoverText)
     gameOverContainer.addChild(restartButton.container)
+    nextRoundContainer.addChild(levelUpContainer)
 
+    nextRoundContainer.visible = false
     runningContainer.visible = false
     pausedContainer.visible = false
     gameOverContainer.visible = false
@@ -100,7 +173,11 @@ function onGameStateChangedListener(newGameState: string) {
             menuContainer.visible = false
             gameOverContainer.visible = false
             pausedContainer.visible = false
+            nextRoundContainer.visible = false
             runningContainer.visible = true
+            break
+        case GAME_STATES.NEXT_ROUND:
+            nextRoundContainer.visible = true
             break
         default:
             break
@@ -109,7 +186,7 @@ function onGameStateChangedListener(newGameState: string) {
 
 function createPlayerLives() {
     let positionY = 100
-    for (let i = 0; i < currentPlayer.maxLives; i++) {
+    for (let i = 0; i < currentPlayer.maxLifes; i++) {
         playerLiveIcons.push(new Icon(viewport.width - 100, positionY, 30))
         positionY += ICONS_PADDING
     }

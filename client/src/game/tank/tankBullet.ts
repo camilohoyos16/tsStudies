@@ -5,15 +5,18 @@ import { playerUpdateScore as playerKilledEnemy } from "./tankInterface"
 import { vector2 } from "./tankVectors"
 import { viewport } from "../viewport"
 import { OBJECT_TAGS } from "./tankConstants"
-import * as draw from "../draw"
-import { Console } from "node:console"
 
-const BULLET_SPEED = -50
+const BULLET_SPEED = -30
+let currentBulletsSpeed = BULLET_SPEED
+
+export function levelUpBulletSpeed(value: number) {
+    currentBulletsSpeed -= value
+}
 
 export const Bullet = (pathSprite: string) => {
     const bullet = new class Bullet extends GameObject {
         moveDirection = vector2(0, 0)
-        currentSpeed = vector2(0, 0)
+        currentSpeed = 0
 
         constructor() {
             super(pathSprite, (deltaTime) => {
@@ -23,16 +26,15 @@ export const Bullet = (pathSprite: string) => {
                     this.destroy()
                     collision.destroy()
 
-                    
                     currentPlayer.killedEnemy()
                     playerKilledEnemy()
                 }
 
             
-                this.currentSpeed = vector2(BULLET_SPEED / deltaTime, BULLET_SPEED / deltaTime)
+                this.currentSpeed = currentBulletsSpeed / deltaTime
                 this.setPosition(
-                    bullet.position.x + bullet.currentSpeed.x * bullet.moveDirection.x,
-                    bullet.position.y + bullet.currentSpeed.y * bullet.moveDirection.y
+                    bullet.position.x + bullet.currentSpeed * bullet.moveDirection.x,
+                    bullet.position.y + bullet.currentSpeed * bullet.moveDirection.y
                 )
 
                 this.checkBulletOffScreen()
@@ -47,6 +49,7 @@ export const Bullet = (pathSprite: string) => {
             this.sprite.anchor.set(0.5, 0.5)
 
             onGameRestart(() => {
+                currentBulletsSpeed = BULLET_SPEED
                 runningContainer.removeChild(this.sprite)
             })
         }

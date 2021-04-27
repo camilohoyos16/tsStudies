@@ -10,15 +10,21 @@ import { runningContainer } from "./tankContainers"
 import { changeGameState, currentGameState } from "./tanksGame"
 
 const PLAYER_SPEED = 30
+let currentPlayerSpeed = PLAYER_SPEED
+
+export function levelUpPlayerSpeed() {
+    currentPlayerSpeed += 10
+}
+
 const AIM_OFFSET_WITH_PLAYER = 50
 const INITIAL_LIVES = 3
 
 export const player = (pathSprite: string) => {
     const newPlayer = new Player(pathSprite,(deltaTime) => {
-        newPlayer.currentSpeed = vector2(PLAYER_SPEED / deltaTime, PLAYER_SPEED / deltaTime)
+        newPlayer.currentSpeed = currentPlayerSpeed / deltaTime
         newPlayer.setPosition(
-            newPlayer.position.x + newPlayer.currentSpeed.x * newPlayer.moveDirection.x,
-            newPlayer.position.y + newPlayer.currentSpeed.y * newPlayer.moveDirection.y
+            newPlayer.position.x + newPlayer.currentSpeed * newPlayer.moveDirection.x,
+            newPlayer.position.y + newPlayer.currentSpeed * newPlayer.moveDirection.y
         )
 
         // newPlayer.setPosition(
@@ -31,10 +37,10 @@ export const player = (pathSprite: string) => {
 
         if (collision?.tags.includes(OBJECT_TAGS.ENEMY)) {
             collision.destroy()
-            newPlayer.currentLives --
+            newPlayer.currentLifes --
         }
 
-        if (newPlayer.currentLives <= 0) {
+        if (newPlayer.currentLifes <= 0) {
             changeGameState(GAME_STATES.GAMEOVER)
         }
 
@@ -55,8 +61,8 @@ export const player = (pathSprite: string) => {
 export class Player extends GameObject{
     moveDirection = vector2(0, 0)
     mousePosition = vector2(0, 0)
-    currentLives: number
-    maxLives: number
+    currentLifes: number
+    maxLifes: number
     score: number
 
     /**
@@ -65,7 +71,7 @@ export class Player extends GameObject{
     aimDirection = vector2(0, 0)
     aimTargetPosition = vector2(0, 0)
 
-    currentSpeed = vector2(0, 0)
+    currentSpeed = 0
 
     constructor(pathSprite: string,update: ((deltaTime: number) => void | (() => void)),destroy?: () => void | undefined) {
         super(pathSprite, update)
@@ -75,17 +81,31 @@ export class Player extends GameObject{
         this.assignKeyEvents()
         this.assigMouseEvents()
         this.tags = [OBJECT_TAGS.PLAYER]
-        this.currentLives = INITIAL_LIVES
-        this.maxLives = INITIAL_LIVES
+        this.currentLifes = INITIAL_LIVES
+        this.maxLifes = INITIAL_LIVES
         this.score = 0
         this.sprite.anchor.set(0.5, 0.5)
     }
 
     resetPlayer() {
-        this.currentLives = INITIAL_LIVES
+        this.currentLifes = INITIAL_LIVES
+        currentPlayerSpeed = PLAYER_SPEED
         this.score = 0
         gameObjects.push(this)
         this.setPosition (viewport.width / 2, viewport.height / 2)
+    }
+
+    fillUpLifes() {
+        this.currentLifes = this.maxLifes
+    }
+
+    levelUpLifes() {
+        this.maxLifes++
+        
+        this.currentLifes++
+        if (this.currentLifes > this.maxLifes) {
+            this.currentLifes = this.maxLifes
+        }
     }
 
     killedEnemy() {

@@ -1,10 +1,10 @@
 import { GAME_STATES, IMAGES } from "./tankConstants"
-import { updateGameObjects, resetGameObjects } from "./tankGameObject"
+import { updateGameObjects, resetGameObjects, GameObject } from "./tankGameObject"
 import { interfaceLoop, startGameInterface, playerUpdateScore as updatePlayerScore } from "./tankInterface"
 import { Player, player } from "./tankPlayer"
 import { keyboard } from "../input"
 import { KEYBINDS } from "../../../../config"
-import { Enemy } from "./tankEnemy"
+import { Enemy, increaseEnemySpeed } from "./tankEnemy"
 import * as draw from "../draw"
 import { viewport } from "../viewport"
 import { EventEmitter } from 'events'
@@ -30,8 +30,13 @@ export function onGameRestart(callback: (newState: string) => void) {
     gameRestartEmitter.on("", callback)
 }
 
+export let currentRound = 1
+export const enemies = Array<GameObject> ()
+
 let lastTime = 0
 let spawnEnemyTimer = 0
+let enemyRoundCount = 0
+let currentEnemiesCount = 0
 const spawnEnemyTick = 500
 
 export let currentPlayer: Player
@@ -41,6 +46,24 @@ export function tankGameStart() {
     currentPlayer = player(IMAGES.player)
     runningContainer.addChild(currentPlayer.sprite)
     startGameInterface()
+
+    currentRound = 1
+    enemyRoundCount = 5
+    currentEnemiesCount = 0
+}
+
+export function checkRound() {
+    console.log(enemies.length)
+    if (currentEnemiesCount >= enemyRoundCount && enemies.length == 0) {
+        nextRound()
+    }
+}
+
+function nextRound() {
+    changeGameState(GAME_STATES.NEXT_ROUND)
+    enemyRoundCount += 5
+    currentEnemiesCount = 0
+    increaseEnemySpeed()
 }
 
 export function tankGameLoop() {
@@ -64,7 +87,11 @@ export function tankGameLoop() {
         requestAnimationFrame(loop)
     }
 
-    function spawnEnemy(timeStamp:number){
+    function spawnEnemy(timeStamp: number) {
+        if (currentEnemiesCount >= enemyRoundCount) {
+            return
+        }
+
         spawnEnemyTimer = timeStamp + spawnEnemyTick
         const spawnPosition = vector2(getRandom(0, viewport.width), getRandom(0, viewport.height))
 
@@ -87,6 +114,8 @@ export function tankGameLoop() {
         }
 
         const newEnemy = Enemy(IMAGES.enemyClown, spawnPosition)
+        enemies.push(newEnemy)
+        currentEnemiesCount ++
         runningContainer.addChild(newEnemy.sprite)
     }
 
@@ -109,10 +138,15 @@ export function resetGame() {
     draw.clear()
     gameRestartEmitter.emit("")
     gameRestartEmitter.removeAllListeners()
+    enemies.length = 0
     resetGameObjects()
     changeGameState(GAME_STATES.RUNNING)
     currentPlayer.resetPlayer()
     updatePlayerScore()
+
+    currentRound = 1
+    enemyRoundCount = 5
+    currentEnemiesCount = 0
 }
 
 

@@ -3,6 +3,7 @@ export const GAME_STATES = {
     RUNNING: "Running",
     PAUSED: "Paused",
     GAMEOVER: "GameOver",
+    NEXT_ROUND: "Next_Round"
 }
 
 export const OBJECT_TAGS = {

@@ -118,7 +118,7 @@ export function createText(text: string, x: number, y: number, fontSize = 32, co
         fontWeight: 'bold',
         fill: color,
         wordWrap: true,
-        wordWrapWidth: 800,
+        wordWrapWidth: 200,
         padding: 10
     })
     const basicText = new PIXI.Text(text, style)
