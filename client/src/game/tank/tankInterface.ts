@@ -9,12 +9,16 @@ import { Sprite, Text } from "pixi.js"
 
 const playerLiveIcons: Array<Icon> = []
 let playButton
-let scoreText
+let scoreText: PIXI.Text
 
 export const interfaceLoop = () => {
     renderMenu()
     renderGame()
     renderPaused()
+}
+
+export function playerKillEnemy() {
+    scoreText.text = `Score: ${currentPlayer.score}`
 }
 
 export function startGameInterface() {
@@ -81,7 +85,7 @@ function onGameStateChangedListener(newGameState: string) {
 }
 
 function renderPaused() {
-    pausedContainer.addChildAt(draw.rect(0, 0, viewport.width, viewport.height, 0xffffff, 0.5)!, 0)
+    // pausedContainer.addChildAt(draw.rect(0, 0, viewport.width, viewport.height, 0xffffff, 0.5)!, 0)
 }
 
 function renderMenu() {
@@ -113,6 +117,7 @@ class Icon{
         this.postion = vector2(x, y)
         this.radius = radius
         this.sprite = draw.sprite(x, y, radius, radius, IMAGES.bullet)
+        this.sprite.anchor.set(0.5, 0.5)
         runningContainer.addChild(this.sprite)
     }
 

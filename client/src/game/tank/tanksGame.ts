@@ -10,6 +10,7 @@ import { viewport } from "../viewport"
 import { EventEmitter } from 'events'
 import { canvasContainer } from "../../components/canvas"
 import { runningContainer } from "./tankContainers"
+import { pixi } from "../pixi"
 
 export let currentGameState = GAME_STATES.MENU
 
@@ -44,8 +45,10 @@ export function tankGameLoop() {
         const deltaTime = timeStamp - lastTime
         lastTime = timeStamp
 
-        if (spawnEnemyTimer < timeStamp) {
-            spawnEnemy(timeStamp)
+        if (currentGameState === GAME_STATES.RUNNING) {
+            if (spawnEnemyTimer < timeStamp) {
+                spawnEnemy(timeStamp)
+            }
         }
     
         updateGameObjects(deltaTime)

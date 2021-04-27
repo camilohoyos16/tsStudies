@@ -20,9 +20,6 @@ loader.add([
   IMAGES.player,
 ])
 loader.load()
-loader.onComplete.add(() => {
-  console.log(loader.resources)
-})
 
 const IS_USING_PIXI = true
 
@@ -45,10 +42,10 @@ export const rect = (x: number, y: number, width: number, height: number, color 
   }
 }
 
-export const circle  = (x: number, y: number, radius: number, color = 0xffffff, alpha = 1) => {
+export const circle  = (x: number, y: number, radius: number, color = 0xffffff, alpha = 1):void => {
   if (IS_USING_PIXI) {
     pixiGraphics.beginFill(color, alpha)
-    return pixiGraphics.drawCircle(x - viewport.x, y - viewport.y, radius)
+    pixiGraphics.drawCircle(x - viewport.x, y - viewport.y, radius)
   }
 }
 

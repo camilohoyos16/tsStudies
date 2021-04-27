@@ -20,27 +20,39 @@ export const player = (pathSprite: string) => {
             newPlayer.position.y + newPlayer.currentSpeed.y * newPlayer.moveDirection.y
         )
 
+        // newPlayer.setPosition(
+        //     newPlayer.mousePosition.x,
+        //     newPlayer.mousePosition.y
+        // )
+
+        const collision = newPlayer.getObjectCollisions()
+
+
+        if (collision?.tags.includes(OBJECT_TAGS.ENEMY)) {
+        }
+
         newPlayer.aimDirection = vector2(
             newPlayer.position.x - newPlayer.mousePosition.x,
             newPlayer.position.y - newPlayer.mousePosition.y
         )
 
-            newPlayer.aimDirection = vector2Normalize(newPlayer.aimDirection)
-            
-            return () => {
-                newPlayer.drawAimTarget()
-            }
+        newPlayer.aimDirection = vector2Normalize(newPlayer.aimDirection)
+
+        return () => {
+            newPlayer.drawAimTarget()
+        }
     })
     return newPlayer
 }
-    
+
 export class Player extends GameObject{
     moveDirection = vector2(0, 0)
     mousePosition = vector2(0, 0)
     currentLives: number
     maxLives: number
-    
-    /** 
+    score: number
+
+    /**
     *@property It is Normalized
     */
     aimDirection = vector2(0, 0)
@@ -51,22 +63,27 @@ export class Player extends GameObject{
     constructor(pathSprite: string,update: ((deltaTime: number) => void | (() => void)),destroy?: () => void | undefined) {
         super(pathSprite, update)
 
-        this.setSize(80)
+        this.setSize(95, 95)
         this.setPosition (viewport.width / 2, viewport.height / 2)
         this.assignKeyEvents()
         this.assigMouseEvents()
         this.tags = [OBJECT_TAGS.PLAYER]
         this.currentLives = INITIAL_LIVES
         this.maxLives = INITIAL_LIVES
+        this.score = 0
+        this.sprite.anchor.set(0.5, 0.5)
     }
 
     resetPlayer() {
         this.currentLives = INITIAL_LIVES
-        
+    }
+
+    killedEnemy() {
+        this.score += 10
     }
 
     drawAimTarget() {
-        const edge = this.radius / 3
+        const edge = 20
         this.aimTargetPosition = vector2(
             (this.position.x - (this.aimDirection.x * AIM_OFFSET_WITH_PLAYER) - edge / 2),
             (this.position.y - (this.aimDirection.y * AIM_OFFSET_WITH_PLAYER) - edge/ 2)
@@ -76,7 +93,7 @@ export class Player extends GameObject{
             this.aimTargetPosition.y,
             edge,
             edge,
-            0x000000 
+            0x000000
         )
     }
 

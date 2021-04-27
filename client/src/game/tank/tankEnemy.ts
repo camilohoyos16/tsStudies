@@ -34,8 +34,9 @@ export const Enemy = (pathSprite: string) =>{
             })
 
             this.tags = [OBJECT_TAGS.ENEMY]
-            this.setSize(60)
-            this.setPosition(0, 0)
+            this.setSize(60, 60)
+            this.setPosition(500, 500)
+            this.sprite.anchor.set(0.5, 0.5)
         }
     }
 

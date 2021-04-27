@@ -4,14 +4,15 @@ import { currentGameState } from "./tanksGame"
 import { GAME_STATES } from "./tankConstants"
 import { collision } from "./tankCollisions"
 import { runningContainer } from "./tankContainers"
-import * as draw from "../draw"
+import * as draws from "../draw"
 import * as PIXI from 'pixi.js'
 
 export const gameObjects: GameObject[] = []
 
 export class GameObject{
     position = vector2(0, 0)
-    radius = 0
+    width = 0
+    height = 0
     tags: Array<string | number | symbol> = []
     sprite: PIXI.Sprite
 
@@ -23,7 +24,7 @@ export class GameObject{
         update: ((deltaTime: number) => void | (() => void)),
         destroy?: () => void | undefined
     ) {
-        this.sprite = draw.sprite(0, 0, 0, 0, pathSprite)
+        this.sprite = draws.sprite(0, 0, 0, 0, pathSprite)
         this.update = update
         this.destroy = destroy || (() => { })
         gameObjects.push(this)
@@ -34,14 +35,15 @@ export class GameObject{
         this.sprite.position.set(this.position.x, this.position.y)
     }
     
-    setSize(radius: number) {
-        this.radius = radius
-        this.sprite.width = radius
-        this.sprite.height = radius
+    setSize(width: number, height: number) {
+        this.width = width
+        this.height = height
+        this.sprite.width = width
+        this.sprite.height = height
     }
 
     setSprite(pathSprite: string) {
-        this.sprite.texture = draw.getTexture(pathSprite)
+        this.sprite.texture = draws.getTexture(pathSprite)
     }
 
     getObjectCollisions() {
@@ -55,8 +57,8 @@ export class GameObject{
 
     getCenter() {
         return vector2(
-            this.position.x + this.radius,
-            this.position.y + this.radius
+            this.position.x,
+            this.position.y
         )
     }
 }
@@ -65,7 +67,7 @@ export function updateGameObjects(deltaTime: number) {
     const draws = []
 
     for (const gameObject of gameObjects) {
-        let draw
+        let draw 
         if (currentGameState === GAME_STATES.RUNNING) {
             draw = gameObject.update(deltaTime)
         }
@@ -73,5 +75,4 @@ export function updateGameObjects(deltaTime: number) {
     }
 
     for (const draw of draws) draw()
-
 }
