@@ -10,7 +10,7 @@ import { runningContainer } from "./tankContainers"
 
 const PLAYER_SPEED = 30
 const AIM_OFFSET_WITH_PLAYER = 50
-const INITIAL_LIVES = 1
+const INITIAL_LIVES = 3
 
 export const player = (pathSprite: string) => {
     const newPlayer = new Player(pathSprite,(deltaTime) => {
@@ -29,6 +29,8 @@ export const player = (pathSprite: string) => {
 
 
         if (collision?.tags.includes(OBJECT_TAGS.ENEMY)) {
+            collision.destroy()
+            newPlayer.currentLives --
         }
 
         newPlayer.aimDirection = vector2(

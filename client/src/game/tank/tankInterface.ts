@@ -6,7 +6,7 @@ import { viewport } from "../viewport"
 import * as draw from "../draw"
 import * as PIXI from 'pixi.js'
 import { Sprite, Text } from "pixi.js"
-
+const ICONS_PADDING = 50
 const playerLiveIcons: Array<Icon> = []
 let playButton
 let scoreText: PIXI.Text
@@ -94,13 +94,15 @@ function renderMenu() {
 
 function renderGame() {
     for (let i = 0; i < playerLiveIcons.length; i++) {
-        playerLiveIcons[i].changeIconState(currentPlayer.currentLives >= i)
+        playerLiveIcons[i].changeIconState(currentPlayer.currentLives - 1 >= i)
     }
 }
 
 function createPlayerLives() {
+    let positionY = 100
     for (let i = 0; i < currentPlayer.maxLives; i++) {
-        playerLiveIcons.push(new Icon(viewport.width - 500, 100, 30))
+        playerLiveIcons.push(new Icon(viewport.width - 100, positionY, 30))
+        positionY += ICONS_PADDING
     }
 }
 
