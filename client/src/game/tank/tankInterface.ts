@@ -19,7 +19,7 @@ export const interfaceLoop = () => {
     }
 }
 
-export function playerKillEnemy() {
+export function playerUpdateScore() {
     scoreText.text = `Score: ${currentPlayer.score}`
 }
 
@@ -48,15 +48,20 @@ export function startGameInterface() {
         strokeThickness: 4
     }
 
-    gameoverText = draw.createText('Game Over!', viewport.width / 2 - 30, viewport.height / 2 - 200, 120)!
+    gameoverText = draw.createText('Game Over!', 0, 0, 20)!
     gameoverText.style = {
         fontFamily: "Impact, Charcoal, sans-serif",
         letterSpacing: 11,
         lineJoin: "bevel",
+        fontSize: 120,
         miterLimit: 4,
         stroke: "red",
         strokeThickness: 4
     }
+    gameoverText.position.set(
+        viewport.width / 2 - gameoverText.width / 2,
+        viewport.height / 2 - gameoverText.height / 2 - 200
+    )
     
     createPlayerLives()
     

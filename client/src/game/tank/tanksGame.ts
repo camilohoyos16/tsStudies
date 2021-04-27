@@ -1,6 +1,6 @@
 import { GAME_STATES, IMAGES } from "./tankConstants"
 import { updateGameObjects, resetGameObjects } from "./tankGameObject"
-import { interfaceLoop as updateInterface, startGameInterface } from "./tankInterface"
+import { interfaceLoop, startGameInterface, playerUpdateScore as updatePlayerScore } from "./tankInterface"
 import { Player, player } from "./tankPlayer"
 import { keyboard } from "../input"
 import { KEYBINDS } from "../../../../config"
@@ -60,7 +60,7 @@ export function tankGameLoop() {
     
         updateGameObjects(deltaTime)
         
-        updateInterface()
+        interfaceLoop()
         requestAnimationFrame(loop)
     }
 
@@ -112,6 +112,7 @@ export function resetGame() {
     resetGameObjects()
     changeGameState(GAME_STATES.RUNNING)
     currentPlayer.resetPlayer()
+    updatePlayerScore()
 }
 
 

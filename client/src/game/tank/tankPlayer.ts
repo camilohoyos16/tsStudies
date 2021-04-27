@@ -83,7 +83,9 @@ export class Player extends GameObject{
 
     resetPlayer() {
         this.currentLives = INITIAL_LIVES
+        this.score = 0
         gameObjects.push(this)
+        this.setPosition (viewport.width / 2, viewport.height / 2)
     }
 
     killedEnemy() {

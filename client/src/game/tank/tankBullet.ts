@@ -1,7 +1,7 @@
 import { GameObject, gameObjects } from "./tankGameObject"
 import { runningContainer } from "./tankContainers"
 import { currentPlayer, onGameRestart } from "./tanksGame"
-import { playerKillEnemy as playerKilledEnemy } from "./tankInterface"
+import { playerUpdateScore as playerKilledEnemy } from "./tankInterface"
 import { vector2 } from "./tankVectors"
 import { viewport } from "../viewport"
 import { OBJECT_TAGS } from "./tankConstants"
