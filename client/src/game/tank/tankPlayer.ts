@@ -1,12 +1,13 @@
-import { GameObject } from "./tankGameObject"
+import { GameObject, gameObjects } from "./tankGameObject"
 import { Bullet } from "./tankBullet"
 import { vector2, vector2Normalize } from "./tankVectors"
 import { keyboard } from "../input"
 import * as draw from "../draw"
 import { KEYBINDS } from "../../../../config"
 import { viewport } from "../viewport"
-import { OBJECT_TAGS, IMAGES } from "./tankConstants"
+import { OBJECT_TAGS, IMAGES, GAME_STATES } from "./tankConstants"
 import { runningContainer } from "./tankContainers"
+import { changeGameState, currentGameState } from "./tanksGame"
 
 const PLAYER_SPEED = 30
 const AIM_OFFSET_WITH_PLAYER = 50
@@ -31,6 +32,10 @@ export const player = (pathSprite: string) => {
         if (collision?.tags.includes(OBJECT_TAGS.ENEMY)) {
             collision.destroy()
             newPlayer.currentLives --
+        }
+
+        if (newPlayer.currentLives <= 0) {
+            changeGameState(GAME_STATES.GAMEOVER)
         }
 
         newPlayer.aimDirection = vector2(
@@ -78,6 +83,7 @@ export class Player extends GameObject{
 
     resetPlayer() {
         this.currentLives = INITIAL_LIVES
+        gameObjects.push(this)
     }
 
     killedEnemy() {
@@ -105,6 +111,9 @@ export class Player extends GameObject{
         })
 
         window.addEventListener('mousedown', () => {
+            if (currentGameState != GAME_STATES.RUNNING)
+                return
+
             const newBullet = Bullet(IMAGES.bullet)
             newBullet.setPosition(this.aimTargetPosition.x, this.aimTargetPosition.y)
             newBullet.setMoveDirection(this.aimDirection)

@@ -63,6 +63,10 @@ export class GameObject{
     }
 }
 
+export function resetGameObjects() {
+    gameObjects.length = 0
+}
+
 export function updateGameObjects(deltaTime: number) {
     const draws = []
 

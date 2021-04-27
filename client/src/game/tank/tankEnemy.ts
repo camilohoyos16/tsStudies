@@ -1,13 +1,13 @@
 import { GameObject, gameObjects } from "./tankGameObject"
 import { vector2, vector2Normalize } from "./tankVectors"
-import { currentPlayer } from "./tanksGame"
+import { currentPlayer, onGameRestart } from "./tanksGame"
 import * as draw from "../draw"
 import { OBJECT_TAGS } from "./tankConstants"
 import { runningContainer } from "./tankContainers"
 
 const ENEMY_SPEED = 15
 
-export const Enemy = (pathSprite: string) =>{
+export const Enemy = (pathSprite: string, spawnPosition: {x: number, y: number}) =>{
     const enemy = new class Enemy extends GameObject {
         currentSpeed = vector2(0, 0)
         moveDirection = vector2(0, 0)
@@ -35,8 +35,11 @@ export const Enemy = (pathSprite: string) =>{
 
             this.tags = [OBJECT_TAGS.ENEMY]
             this.setSize(60, 60)
-            this.setPosition(500, 500)
+            this.setPosition(spawnPosition.x, spawnPosition.y)
             this.sprite.anchor.set(0.5, 0.5)
+            onGameRestart(() => {
+                runningContainer.removeChild(this.sprite)
+            })
         }
     }
 

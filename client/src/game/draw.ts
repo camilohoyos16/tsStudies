@@ -86,7 +86,9 @@ export const button = (text: string, x: number, y: number, width: number, height
   buttonContainer.visible = true
 
   
-  const textValue = createText(text, buttonSprite.width / 3.5, buttonSprite.height / 5)
+  const textValue = createText(text, buttonSprite.width / 2, buttonSprite.height / 2)
+  textValue.position.set((buttonSprite.width / 2) - (textValue.width / 2),
+    (buttonSprite.height / 2) - (textValue.height / 2))
   
   buttonContainer.on("mouseover", () => {
     buttonSprite.tint = 0x52c2ff

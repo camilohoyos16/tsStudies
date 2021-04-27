@@ -1,6 +1,6 @@
 import { GameObject, gameObjects } from "./tankGameObject"
 import { runningContainer } from "./tankContainers"
-import { currentPlayer } from "./tanksGame"
+import { currentPlayer, onGameRestart } from "./tanksGame"
 import { playerKillEnemy as playerKilledEnemy } from "./tankInterface"
 import { vector2 } from "./tankVectors"
 import { viewport } from "../viewport"
@@ -45,6 +45,10 @@ export const Bullet = (pathSprite: string) => {
             this.setSize(45, 45)
             this.tags = [OBJECT_TAGS.BULLET]
             this.sprite.anchor.set(0.5, 0.5)
+
+            onGameRestart(() => {
+                runningContainer.removeChild(this.sprite)
+            })
         }
     
         checkBulletOffScreen() {

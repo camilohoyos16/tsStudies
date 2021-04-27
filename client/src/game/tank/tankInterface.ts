@@ -1,7 +1,7 @@
-import { currentGameState, currentPlayer, changeGameState, onGameStateChanged } from "./tanksGame"
+import { currentGameState, currentPlayer, changeGameState, onGameStateChanged, resetGame } from "./tanksGame"
 import { vector2 } from "./tankVectors"
 import { GAME_STATES, IMAGES } from "./tankConstants"
-import { menuContainer, runningContainer, pausedContainer } from "./tankContainers"
+import { menuContainer, runningContainer, pausedContainer, gameOverContainer } from "./tankContainers"
 import { viewport } from "../viewport"
 import * as draw from "../draw"
 import * as PIXI from 'pixi.js'
@@ -9,12 +9,14 @@ import { Sprite, Text } from "pixi.js"
 const ICONS_PADDING = 50
 const playerLiveIcons: Array<Icon> = []
 let playButton
+let restartButton
 let scoreText: PIXI.Text
+let gameoverText: PIXI.Text
 
 export const interfaceLoop = () => {
-    renderMenu()
-    renderGame()
-    renderPaused()
+    for (let i = 0; i < playerLiveIcons.length; i++) {
+        playerLiveIcons[i].changeIconState(currentPlayer.currentLives - 1 >= i)
+    }
 }
 
 export function playerKillEnemy() {
@@ -25,6 +27,11 @@ export function startGameInterface() {
     playButton = draw.button("Play", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 75)
     playButton.container.on("click", () => {
         changeGameState(GAME_STATES.RUNNING)
+    })
+
+    restartButton = draw.button("Restart", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 75)
+    restartButton.container.on("click", () => {
+        resetGame()
     })
     
     scoreText = draw.createText('Score: 0', 50, 50, 32)!
@@ -40,61 +47,58 @@ export function startGameInterface() {
         stroke: "red",
         strokeThickness: 4
     }
-    
-    pausedContainer.addChild(draw.createText("Paused", viewport.width / 2 - 75, viewport.height / 2 - 75, 80))
-    
-    runningContainer.addChild(scoreText)
-    menuContainer.addChild(playButton.container)
 
+    gameoverText = draw.createText('Game Over!', viewport.width / 2 - 30, viewport.height / 2 - 200, 120)!
+    gameoverText.style = {
+        fontFamily: "Impact, Charcoal, sans-serif",
+        letterSpacing: 11,
+        lineJoin: "bevel",
+        miterLimit: 4,
+        stroke: "red",
+        strokeThickness: 4
+    }
+    
     createPlayerLives()
-
+    
     onGameStateChanged([
         GAME_STATES.GAMEOVER,
         GAME_STATES.MENU,
         GAME_STATES.PAUSED,
         GAME_STATES.RUNNING,
     ], onGameStateChangedListener)
+    
+    pausedContainer.addChild(draw.createText("Paused", viewport.width / 2 - 75, viewport.height / 2 - 75, 80))
+    runningContainer.addChild(scoreText)
+    menuContainer.addChild(playButton.container)
+    gameOverContainer.addChild(gameoverText)
+    gameOverContainer.addChild(restartButton.container)
 
     runningContainer.visible = false
     pausedContainer.visible = false
+    gameOverContainer.visible = false
     menuContainer.visible = true
 }
 
 function onGameStateChangedListener(newGameState: string) {
     switch (newGameState) {
         case GAME_STATES.GAMEOVER:
+            gameOverContainer.visible = true
             break
-            case GAME_STATES.MENU:
-                runningContainer.visible = false
-                pausedContainer.visible = false
-                menuContainer.visible = true
+        case GAME_STATES.MENU:
+            menuContainer.visible = true
+        break
+        case GAME_STATES.PAUSED:
+            runningContainer.visible = true
+            pausedContainer.visible = true
             break
-            case GAME_STATES.PAUSED:
-                runningContainer.visible = true
-                menuContainer.visible = false
-                pausedContainer.visible = true
-            break
-            case GAME_STATES.RUNNING:
-                pausedContainer.visible = false
-                menuContainer.visible = false
-                runningContainer.visible = true
+        case GAME_STATES.RUNNING:
+            menuContainer.visible = false
+            gameOverContainer.visible = false
+            pausedContainer.visible = false
+            runningContainer.visible = true
             break
         default:
             break
-    }
-}
-
-function renderPaused() {
-    // pausedContainer.addChildAt(draw.rect(0, 0, viewport.width, viewport.height, 0xffffff, 0.5)!, 0)
-}
-
-function renderMenu() {
-    //draw.rect(0, 0, viewport.width, viewport.height, 0xffffff)
-}
-
-function renderGame() {
-    for (let i = 0; i < playerLiveIcons.length; i++) {
-        playerLiveIcons[i].changeIconState(currentPlayer.currentLives - 1 >= i)
     }
 }
 
