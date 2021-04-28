@@ -122,7 +122,7 @@ export function startGameInterface() {
     
     bulletSpeedButton = draw.button("+ Bullet Speed", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 150)
     bulletSpeedButton.container.on("click", () => {
-        levelUpBulletSpeed(10)
+        levelUpBulletSpeed()
         changeGameState(GAME_STATES.RUNNING)
     })
     

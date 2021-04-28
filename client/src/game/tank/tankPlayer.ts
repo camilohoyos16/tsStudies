@@ -13,7 +13,7 @@ const PLAYER_SPEED = 30
 let currentPlayerSpeed = PLAYER_SPEED
 
 export function levelUpPlayerSpeed() {
-    currentPlayerSpeed += 10
+    currentPlayerSpeed += 6
 }
 
 const AIM_OFFSET_WITH_PLAYER = 50

@@ -9,8 +9,8 @@ import { viewport } from "../viewport"
 const BULLET_SPEED = -30
 let currentBulletsSpeed = BULLET_SPEED
 
-export function levelUpBulletSpeed(value: number) {
-    currentBulletsSpeed -= value
+export function levelUpBulletSpeed() {
+    currentBulletsSpeed -= 20
 }
 
 export const Bullet = (pathSprite: string) => {

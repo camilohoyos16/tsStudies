@@ -8,7 +8,7 @@ const ENEMY_SPEED = 10
 let currentEnemySpeed = ENEMY_SPEED
 
 export function increaseEnemySpeed() {
-    currentEnemySpeed += 6    
+    currentEnemySpeed += 2    
 }
 
 export const Enemy = (pathSprite: string, spawnPosition: {x: number, y: number}) =>{
