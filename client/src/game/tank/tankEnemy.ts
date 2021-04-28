@@ -5,11 +5,11 @@ import * as draw from "../draw"
 import { OBJECT_TAGS } from "./tankConstants"
 import { runningContainer } from "./tankContainers"
 
-const ENEMY_SPEED = 15
+const ENEMY_SPEED = 10
 let currentEnemySpeed = ENEMY_SPEED
 
 export function increaseEnemySpeed() {
-    currentEnemySpeed += 10    
+    currentEnemySpeed += 6    
 }
 
 export const Enemy = (pathSprite: string, spawnPosition: {x: number, y: number}) =>{

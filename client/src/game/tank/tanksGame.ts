@@ -1,6 +1,6 @@
 import { GAME_STATES, IMAGES } from "./tankConstants"
 import { updateGameObjects, resetGameObjects, GameObject } from "./tankGameObject"
-import { interfaceLoop, startGameInterface, updatePlayerScore, resetInterface } from "./tankInterface"
+import { interfaceLoop, startGameInterface, updateRounds, resetInterface } from "./tankInterface"
 import { Player, player } from "./tankPlayer"
 import { keyboard } from "../input"
 import { KEYBINDS } from "../../../../config"
@@ -64,6 +64,8 @@ function nextRound() {
     enemyRoundCount += 5
     currentEnemiesCount = 0
     increaseEnemySpeed()
+    currentRound++
+    updateRounds()
 }
 
 export function tankGameLoop() {
@@ -139,6 +141,7 @@ export function resetGame() {
     gameRestartEmitter.emit("")
     gameRestartEmitter.removeAllListeners()
     enemies.length = 0
+    currentRound = 1
     resetGameObjects()
     changeGameState(GAME_STATES.RUNNING)
     currentPlayer.resetPlayer()

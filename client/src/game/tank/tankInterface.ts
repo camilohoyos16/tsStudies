@@ -1,4 +1,4 @@
-import { currentPlayer, changeGameState, onGameStateChanged, resetGame } from "./tanksGame"
+import { currentPlayer, changeGameState, onGameStateChanged, resetGame, currentRound } from "./tanksGame"
 import { vector2 } from "./tankVectors"
 import { levelUpBulletSpeed } from "./tankBullet"
 import { levelUpPlayerSpeed } from "./tankPlayer"
@@ -37,8 +37,14 @@ export function updatePlayerScore() {
     scoreText.text = `Score: ${currentPlayer.score}`
 }
 
+export function updateRounds() {
+    roundsText.text = `Rounds: ${currentRound}`
+}
+
 export function resetInterface() {
     updatePlayerScore()
+    updateRounds()
+
     for (let i = 0; i < playerLiveIcons.length; i++) {
         runningContainer.removeChild(playerLiveIcons[i].sprite)  
     }
@@ -58,8 +64,7 @@ export function startGameInterface() {
         resetGame()
     })
     
-    scoreText = draw.createText('Score: 0', 50, 50, 32)!
-    scoreText.style = {
+    const style = new PIXI.TextStyle({
         dropShadow: true,
         dropShadowAngle: -2.3,
         dropShadowBlur: 3,
@@ -70,7 +75,13 @@ export function startGameInterface() {
         miterLimit: 4,
         stroke: "red",
         strokeThickness: 4
-    }
+    })
+
+    scoreText = draw.createText('Score: 0', 50, 50, 32)!
+    scoreText.style = style
+
+    roundsText = draw.createText('Rounds: 1', scoreText.width + 200, 50, 32)!
+    roundsText.style = style
 
     gameoverText = draw.createText('Game Over!', 0, 0, 20)!
     gameoverText.style = {
@@ -156,6 +167,7 @@ export function startGameInterface() {
     
     pausedContainer.addChild(draw.createText("Paused", viewport.width / 2 - 75, viewport.height / 2 - 75, 80))
     runningContainer.addChild(scoreText)
+    runningContainer.addChild(roundsText)
     menuContainer.addChild(playButton.container)
     gameOverContainer.addChild(gameoverText)
     gameOverContainer.addChild(restartButton.container)
