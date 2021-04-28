@@ -1,11 +1,9 @@
-import { OBJECT_TAGS } from "src/constants"
-import { vector2 } from "./tankVectors"
 import { currentGameState } from "./tanksGame"
 import { GAME_STATES } from "./tankConstants"
 import { collision } from "./tankCollisions"
-import { runningContainer } from "./tankContainers"
+import { vector2 } from "./tankVectors"
+import { Sprite } from "../pixi"
 import * as draws from "../draw"
-import * as PIXI from 'pixi.js'
 
 export const gameObjects: GameObject[] = []
 
@@ -14,7 +12,7 @@ export class GameObject{
     width = 0
     height = 0
     tags: Array<string | number | symbol> = []
-    sprite: PIXI.Sprite
+    sprite: Sprite
 
     update: (deltaTime: number) => void | (() => void)
     destroy: () => void | undefined

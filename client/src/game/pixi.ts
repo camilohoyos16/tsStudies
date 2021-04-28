@@ -1,4 +1,5 @@
 import { Application, Graphics, Sprite } from 'pixi.js'
+export { Text, TextStyle, Container, Sprite, Texture, Loader } from 'pixi.js'
 
 /**
  * Don't uses this directly, use `draw.ts` instead.

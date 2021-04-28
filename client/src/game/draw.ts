@@ -1,10 +1,8 @@
-import { pixi, pixiGraphics } from "./pixi"
+import { Sprite, pixiGraphics, Texture, Container, TextStyle, Text, Loader } from "./pixi"
 import { IMAGES } from "./tank/tankConstants"
-import * as PIXI from 'pixi.js'
-import {Sprite, Texture} from 'pixi.js'
 import { viewport } from "./viewport"
 
-const loader = PIXI.Loader.shared
+const loader = Loader.shared
 
 // loader.add(Array.from(IMAGES) as Array<string>)
 loader.add([
@@ -22,7 +20,6 @@ loader.add([
 loader.load()
 
 const IS_USING_PIXI = true
-
 
 /**
  * Clear entire canvas.`
@@ -75,7 +72,7 @@ export function getTexture(spritePath: string): Texture{
 
 
 export const button = (text: string, x: number, y: number, width: number, height: number) => {
-  const buttonContainer = new PIXI.Container()
+  const buttonContainer = new Container()
   buttonContainer.position.set(x, y)
   
   const buttonSprite = sprite(0, 0, width, height, "images/buttonNormal.png")
@@ -112,7 +109,7 @@ export const button = (text: string, x: number, y: number, width: number, height
 
 export function createText(text: string, x: number, y: number, fontSize = 32, color = 0x000000, fontFamily = "Arial", interactive = false)
 {
-    const style = new PIXI.TextStyle({
+    const style = new TextStyle({
         fontFamily: fontFamily,
         fontSize: fontSize,
         fontWeight: 'bold',
@@ -121,7 +118,7 @@ export function createText(text: string, x: number, y: number, fontSize = 32, co
         wordWrapWidth: 200,
         padding: 10
     })
-    const basicText = new PIXI.Text(text, style)
+    const basicText = new Text(text, style)
     basicText.x = x
     basicText.y = y
     basicText.buttonMode = interactive

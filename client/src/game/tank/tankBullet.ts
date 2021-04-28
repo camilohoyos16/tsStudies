@@ -1,10 +1,10 @@
+import { updatePlayerScore as playerKilledEnemy } from "./tankInterface"
+import { currentPlayer, onGameRestart } from "./tanksGame"
 import { GameObject, gameObjects } from "./tankGameObject"
 import { runningContainer } from "./tankContainers"
-import { currentPlayer, onGameRestart } from "./tanksGame"
-import { updatePlayerScore as playerKilledEnemy } from "./tankInterface"
+import { OBJECT_TAGS } from "./tankConstants"
 import { vector2 } from "./tankVectors"
 import { viewport } from "../viewport"
-import { OBJECT_TAGS } from "./tankConstants"
 
 const BULLET_SPEED = -30
 let currentBulletsSpeed = BULLET_SPEED

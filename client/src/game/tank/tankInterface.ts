@@ -1,13 +1,12 @@
+import { menuContainer, runningContainer, pausedContainer, gameOverContainer, nextRoundContainer } from "./tankContainers"
 import { currentPlayer, changeGameState, onGameStateChanged, resetGame, currentRound } from "./tanksGame"
-import { vector2 } from "./tankVectors"
+import { GAME_STATES, IMAGES } from "./tankConstants"
 import { levelUpBulletSpeed } from "./tankBullet"
 import { levelUpPlayerSpeed } from "./tankPlayer"
-import { GAME_STATES, IMAGES } from "./tankConstants"
-import { menuContainer, runningContainer, pausedContainer, gameOverContainer, nextRoundContainer } from "./tankContainers"
+import { vector2 } from "./tankVectors"
+import { Sprite, Text, TextStyle, Container } from "../pixi"
 import { viewport } from "../viewport"
 import * as draw from "../draw"
-import * as PIXI from 'pixi.js'
-import { Sprite, Text } from "pixi.js"
 
 const ICONS_PADDING = 50
 const playerLiveIcons: Array<Icon> = []
@@ -21,10 +20,10 @@ let bulletSpeedButton
 let fillUpLifesButton
 let extraLifeButton
 
-let scoreText: PIXI.Text
-let roundsText: PIXI.Text
-let gameoverText: PIXI.Text
-let nextRoundText: PIXI.Text
+let scoreText: Text
+let roundsText: Text
+let gameoverText: Text
+let nextRoundText: Text
 
 
 export const interfaceLoop = () => {
@@ -64,7 +63,7 @@ export function startGameInterface() {
         resetGame()
     })
     
-    const style = new PIXI.TextStyle({
+    const style = new TextStyle({
         dropShadow: true,
         dropShadowAngle: -2.3,
         dropShadowBlur: 3,
@@ -113,7 +112,7 @@ export function startGameInterface() {
         viewport.height / 2 - nextRoundText.height / 2 - 200
     )
 
-    levelUpContainer = new PIXI.Container()
+    levelUpContainer = new Container()
 
     playerSpeedButton = draw.button("+ Player Speed", viewport.width / 2 - 75, viewport.height / 2 - 36, 150, 150)
     playerSpeedButton.container.on("click", () => {

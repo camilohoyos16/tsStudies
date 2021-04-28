@@ -1,13 +1,13 @@
+import { OBJECT_TAGS, IMAGES, GAME_STATES } from "./tankConstants"
+import { changeGameState, currentGameState } from "./tanksGame"
 import { GameObject, gameObjects } from "./tankGameObject"
-import { Bullet } from "./tankBullet"
 import { vector2, vector2Normalize } from "./tankVectors"
+import { runningContainer } from "./tankContainers"
+import { Bullet } from "./tankBullet"
+import { viewport } from "../viewport"
 import { keyboard } from "../input"
 import * as draw from "../draw"
 import { KEYBINDS } from "../../../../config"
-import { viewport } from "../viewport"
-import { OBJECT_TAGS, IMAGES, GAME_STATES } from "./tankConstants"
-import { runningContainer } from "./tankContainers"
-import { changeGameState, currentGameState } from "./tanksGame"
 
 const PLAYER_SPEED = 30
 let currentPlayerSpeed = PLAYER_SPEED

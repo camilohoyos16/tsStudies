@@ -1,5 +1,5 @@
-import { GameObject } from "./tankGameObject"
 import { vector2, vector2Magnitude } from "./tankVectors"
+import { GameObject } from "./tankGameObject"
 
 export function collision(collider: GameObject, otherObject: GameObject): boolean{
     const newVector = vector2(

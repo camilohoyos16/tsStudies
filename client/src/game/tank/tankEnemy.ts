@@ -1,9 +1,8 @@
+import { currentPlayer, onGameRestart, enemies, checkRound } from "./tanksGame"
 import { GameObject, gameObjects } from "./tankGameObject"
 import { vector2, vector2Normalize } from "./tankVectors"
-import { currentPlayer, onGameRestart, enemies, checkRound } from "./tanksGame"
-import * as draw from "../draw"
-import { OBJECT_TAGS } from "./tankConstants"
 import { runningContainer } from "./tankContainers"
+import { OBJECT_TAGS } from "./tankConstants"
 
 const ENEMY_SPEED = 10
 let currentEnemySpeed = ENEMY_SPEED

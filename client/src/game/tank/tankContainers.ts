@@ -1,5 +1,4 @@
-import { Container } from "pixi.js"
-import { pixi } from "../pixi"
+import { pixi, Container } from "../pixi"
 import { viewport } from "../viewport"
 
 export const menuContainer = new Container()
